@@ -91,9 +91,7 @@ Superball::Superball(int argc, char **argv)
 int main(int argc, char **argv)
 {
   Superball s(argc, argv);
-  //anaylze the superball through the restraints
   s.analyzeSuperball();
-
 }
 
 
@@ -104,6 +102,7 @@ void Superball::analyzeSuperball() {
   print.resize(board.size(), false);
 
   //loops through the entire board and at every cell, checks if the bottom and right cells are the same color and unions them and adds their rank if that is the case.
+  //I dont have to bother adding to the top or left because i know ive already gone through them earlier
   for (unsigned int i = 0; i<board.size(); i++) {
     int s1,s2,s3;
     //checks if the cell is empty
