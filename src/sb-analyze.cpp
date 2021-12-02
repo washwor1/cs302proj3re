@@ -91,17 +91,6 @@ Superball::Superball(int argc, char **argv)
 int main(int argc, char **argv)
 {
   Superball s(argc, argv);
-  int ngoal, tgoal;
-    tgoal = 0;
-    ngoal = 0;
-    
-    //adds the colors in
-    for (int i = 0; i < s.r*s.c; i++) {
-      if (s.goals.at(i) && s.board.at(i) != '*') {
-        tgoal += s.colors.at(s.board.at(i));
-        ngoal++;
-      }
-  }
   //anaylze the superball through the restraints
   s.analyzeSuperball();
 
