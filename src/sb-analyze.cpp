@@ -1,3 +1,8 @@
+/*sb-analyze.cpp
+1/2 project 3
+Walter Ashworth
+takes in a superball board, analyzes it, and then outputs all the connected cells by color*/
+
 #include "disjoint_set.hpp"
 #include <cstdio>
 #include <cstdlib>
@@ -22,7 +27,7 @@ class Superball {
     vector <int> board;
     vector <int> goals;
     vector <int> colors;
-    Disjoint_Set *ds;
+    Disjoint_Set ds;
     void analyzeSuperball();
 };
 
@@ -56,8 +61,7 @@ Superball::Superball(int argc, char **argv)
 
   board.resize(r*c);
   goals.resize(r*c, 0);
-  ds = new Disjoint_Set;
-  ds->Initialize(r*c);
+  ds.Initialize(r*c);
 
 
 
@@ -109,19 +113,19 @@ void Superball::analyzeSuperball() {
     if(board.at(i) != '.' && board.at(i) != '*'){
       //adds the right if it exists
       if(i%c != c-1 && board.at(i) == board.at(i+1)){
-          s1 = ds->Find(i);
-          s2 = ds->Find(i+1);
+          s1 = ds.Find(i);
+          s2 = ds.Find(i+1);
           if(s1 != s2){
-            s3 = ds->Union(s1, s2);
+            s3 = ds.Union(s1, s2);
             rank[s3] = rank[s2] + rank[s1];
           }
         }
       //adds the bottom if it exists
       if(i/c!=r-1 && board.at(i) == board.at(i+c)){
-        s1 = ds->Find(i);
-        s2 = ds->Find(i+c);
+        s1 = ds.Find(i);
+        s2 = ds.Find(i+c);
         if(s1 != s2){
-          s3 = ds->Union(s1, s2);  
+          s3 = ds.Union(s1, s2);  
           rank[s3] = rank[s2] + rank[s1];
         }
       }
@@ -132,7 +136,7 @@ void Superball::analyzeSuperball() {
   cout << "Scoring sets:" << endl;
   for(int i = 0; i < board.size();i++){
     if(goals.at(i) == 1 && board.at(i) != '.' && board.at(i) != '*'){
-      int root = ds->Find(i);
+      int root = ds.Find(i);
       if(rank[root] >= mss && print[root] == false){
         print[root] = true;
         cout << " Size: " << setw(2) << setfill(' ') << rank[root] << " Char: " << (char)board.at(i) << " Scoring Cell: " << i/c << "," << i%c << endl;
